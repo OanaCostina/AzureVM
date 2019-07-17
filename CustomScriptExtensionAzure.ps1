@@ -1,22 +1,9 @@
-﻿#Change CD drive letter
-$drv = Get-WmiObject win32_volume -filter 'DriveLetter = "E:"'
+#Change CD drive letter
+$driveletter = arg[0]
+$drv = Get-WmiObject win32_volume -filter "DriveLetter = `"$driveletter`""
 if ($drv) {
 $drv.DriveLetter = "L:"
 $drv.Put() | out-null
 }
 
-# Initialize Disk and assign letter
-$disks = Get-Disk | Where partitionstyle -eq 'raw' | sort number
-
-$letters = 70..89 | ForEach-Object { [char]$_ }
-$count = 0
-$labels = "data1","data2"
-
-foreach ($disk in $disks) {
-    $driveLetter = $letters[$count].ToString()
-    $disk | 
-    Initialize-Disk -PartitionStyle MBR -PassThru |
-    New-Partition -UseMaximumSize -DriveLetter $driveLetter |
-    Format-Volume -FileSystem NTFS -NewFileSystemLabel $labels[$count] -Confirm:$false -Force
-$count++
-}
+Initialize-Disk -VirtualDisk (Get-VirtualDisk -FriendlyName UserData) | New-Partition -UseMaximumSize -DriveLetter $driveletter
