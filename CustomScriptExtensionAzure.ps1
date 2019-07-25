@@ -1,5 +1,10 @@
 #Change CD drive letter
-$driveletter = $args[0]
+[CmdletBinding()]
+param (
+    $drvLetter
+)
+
+$driveletter = $drvLetter
 $drv = Get-WmiObject win32_volume -filter "DriveLetter = `"$($driveletter):`""
 if ($drv) {
 $drv.DriveLetter = "L:"
