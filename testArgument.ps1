@@ -4,4 +4,4 @@ param (
 )
 
 if (!$string) { $string = 'test' }
-New-Item -Path "C:\$string" -Type Folder
+New-Item -Path "C:\Users\BuildAdmin\Desktop\$string" -Type Folder
