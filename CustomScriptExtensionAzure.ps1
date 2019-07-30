@@ -7,7 +7,7 @@ param (
 $driveletter = $drvLetter
 $drv = Get-WmiObject win32_volume -filter "DriveLetter = `"$($driveletter):`""
 if ($drv) {
-$drv.DriveLetter = "L:"
+$drv.DriveLetter = "Z:"
 $drv.Put() | out-null
 }
 
